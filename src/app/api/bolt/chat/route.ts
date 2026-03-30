@@ -61,6 +61,24 @@ function detect(msg: string) {
   // Cash flow
   if (/caixa|saldo|fluxo|cash/.test(m)) return { intent: 'cashflow' }
 
+  // Eventos / sinistros
+  if (/evento|sinistro|colisao|colisão|acidente|acionamento/.test(m)) return { intent: 'eventos' }
+
+  // Cobrança / CollectPRO
+  if (/cobranc|cobrança|inadimplente|boleto|collect|régua|regua/.test(m)) return { intent: 'cobranca' }
+
+  // Trilia / educacional
+  if (/trilia|curso|evento educacional|sdr|closer|palestra/.test(m)) return { intent: 'trilia_crm' }
+
+  // RH / colaboradores
+  if (/colaborador|rh|contrat|deslig|ferias|férias|folha|gente forte/.test(m)) return { intent: 'rh' }
+
+  // VoIP / ligações IA
+  if (/voip|voz|pipeline voz|fish speech|xtts|pipecat|freeswitch/.test(m)) return { intent: 'voip' }
+
+  // Painel / sistemas
+  if (/sistema|ecossistema|quantos sistemas|status geral/.test(m)) return { intent: 'status_sistemas' }
+
   return { intent: 'default' }
 }
 
@@ -204,9 +222,43 @@ export async function POST(req: NextRequest) {
       emotion = 'positive'
       break
 
+    case 'eventos':
+      text =
+        'EventosPRO: sistema de gestão de sinistros e eventos veiculares. Associados acompanham o andamento em tempo real. Sistema criado esta noite — aguardando deploy Vercel para entrar em produção.'
+      emotion = 'neutral'
+      break
+
+    case 'cobranca':
+      text = `CollectPRO: ${formatBRL(1247000)} em aberto. Taxa de recuperação 68%. Régua: D+1 WhatsApp amigável → D+7 WA + ligação → D+15 VoIP IA automático. Equipe: Angela, Carlos, Fernanda, Rodrigo.`
+      emotion = 'warning'
+      break
+
+    case 'trilia_crm':
+      text =
+        'CRM Trilia: pipeline educacional com 6 estágios — Novo Lead, Qualificado, Proposta, Negociando, Fechado, Perdido. Angelo é o Head. 6 SDRs + 2 closers. Sistema criado esta noite — aguardando deploy.'
+      emotion = 'positive'
+      break
+
+    case 'rh':
+      text =
+        'Gente Forte RH: 24 módulos — avaliações, PDI, treinamentos, onboarding, férias, banco de horas, organograma. Colaboradores da Objetivo e todo o grupo. Sistema online em gente-forte-ixl4t4vam-holdingwalk.vercel.app.'
+      emotion = 'neutral'
+      break
+
+    case 'voip':
+      text =
+        'Pipeline VoIP IA ativo no PC Gamer: Faster-Whisper (STT) → Qwen 14B (LLM) → XTTS (TTS voz Alex). Trunk: Telnyx. 400k minutos contratados. Integrado ao LuxSales — liga automaticamente para leads qualificados.'
+      emotion = 'positive'
+      break
+
+    case 'status_sistemas':
+      text = `Ecossistema WALK: 11 sistemas. Online: LuxSales (100%), GIA Backend (100%), ASSIST AI (80%), Painel Bolt (75%), CollectPRO (70%), Track System (65%), WalkFinance (65%), RH (55%). Em deploy: EventosPRO, CRM Trilia, Essência Marketing. Bloqueio: token Vercel expirado.`
+      emotion = 'neutral'
+      break
+
     default:
       text =
-        'Não entendi completamente. Pergunte sobre faturamento, alertas, ranking, inadimplência, ligações, leads, conversas WhatsApp ou qualquer empresa do grupo — Objetivo, Trilho Soluções, TrackIt, Trilia, Essência Marketing, Digital LUX, Oficina ou Walk Contábil.'
+        'Não entendi completamente. Pergunte sobre faturamento, alertas, ranking, inadimplência, ligações, leads, conversas WhatsApp ou qualquer empresa do grupo — Objetivo, Trilho Soluções, TrackIt, Trilia, Essência Marketing, Digital LUX, Oficina ou Walk Contábil — ou pergunte sobre eventos, cobrança, trilia, rh, voip ou status dos sistemas.'
       break
   }
 
