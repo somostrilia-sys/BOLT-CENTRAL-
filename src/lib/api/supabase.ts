@@ -2,9 +2,13 @@ import { createClient } from '@supabase/supabase-js'
 
 // Supabase principal do grupo WALK
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://ecaduzwautlpzpvjognr.supabase.co'
-const SUPABASE_ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+// Server-side: usa service key para bypass RLS; client-side: anon key
+const SUPABASE_KEY =
+  process.env.SUPABASE_SERVICE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+  ''
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON)
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 // IDs das empresas
 export const COMPANY_IDS = {
