@@ -1,0 +1,63 @@
+export const OBJETIVO_MOCK = {
+  comercial: {
+    placasVendidas: 347,
+    metaPlacas: 400,
+    conversaoFunil: 23.5,
+    ticketMedio: 189.90,
+    churn: 2.1,
+    placasLiquidas: 234,
+    funil: [
+      { etapa: 'Leads', valor: 2400 },
+      { etapa: 'Qualificados', valor: 1200 },
+      { etapa: 'Proposta', valor: 680 },
+      { etapa: 'Fechamento', valor: 347 },
+    ],
+    vendasDiarias: Array.from({ length: 30 }, (_, i) => ({
+      dia: `${i + 1}`,
+      vendas: Math.floor(Math.random() * 20 + 5),
+      metaAcum: Math.floor(((i + 1) / 30) * 400),
+    })),
+  },
+  financeiro: {
+    faturamentoBruto: 1420000,
+    faturamentoLiquido: 1190000,
+    comissoesPagas: 142000,
+    comissoesPendentes: 38000,
+    cac: 320,
+    ltv: 4560,
+    folha: [
+      { data: '05/03/2026', competencia: 'Fev/26', bruto: 487000, descontos: 98000, liquido: 389000, colaboradores: 89, status: 'Pago' },
+      { data: '05/02/2026', competencia: 'Jan/26', bruto: 472000, descontos: 95000, liquido: 377000, colaboradores: 87, status: 'Pago' },
+      { data: '05/01/2026', competencia: 'Dez/25', bruto: 510000, descontos: 102000, liquido: 408000, colaboradores: 87, status: 'Pago' },
+    ],
+    totalFolhaMes: 487000,
+    custoMedioColab: 5472,
+  },
+  operacional: {
+    sinistrosAbertos: 23,
+    sinistrosResolvidos: 187,
+    tempoResolucao: 4.2,
+    acionamentos24h: 12,
+    nps: 8.4,
+    rastreadores: 11200,
+    sinistrosStatus: [
+      { name: 'Abertos', value: 23, color: '#f59e0b' },
+      { name: 'Em análise', value: 15, color: '#6366f1' },
+      { name: 'Resolvidos', value: 187, color: '#10b981' },
+    ],
+  },
+  franquias: [
+    { nome: 'Campinas', vendas: 187, meta: 200, pct: 93.5, receita: 342000, inadimplencia: 11.3 },
+    { nome: 'Ribeirão Preto', vendas: 156, meta: 150, pct: 104, receita: 285000, inadimplencia: 5.2 },
+    { nome: 'São José dos Campos', vendas: 134, meta: 140, pct: 95.7, receita: 245000, inadimplencia: 4.8 },
+    { nome: 'Uberlândia', vendas: 112, meta: 120, pct: 93.3, receita: 205000, inadimplencia: 7.1 },
+    { nome: 'Goiânia', vendas: 98, meta: 100, pct: 98, receita: 179000, inadimplencia: 6.4 },
+  ],
+  consultores: [
+    { nome: 'Carlos Silva', franquia: 'Campinas', placas: 45, conversao: 32, ticket: 195 },
+    { nome: 'Ana Rodrigues', franquia: 'Ribeirão Preto', placas: 38, conversao: 28, ticket: 192 },
+    { nome: 'Pedro Santos', franquia: 'São José', placas: 35, conversao: 25, ticket: 188 },
+    { nome: 'Maria Oliveira', franquia: 'Campinas', placas: 33, conversao: 30, ticket: 201 },
+    { nome: 'João Lima', franquia: 'Uberlândia', placas: 31, conversao: 22, ticket: 185 },
+  ],
+}
