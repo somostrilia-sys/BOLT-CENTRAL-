@@ -5,44 +5,9 @@ import KPICard from '@/components/dashboard/KPICard'
 import ComposedChartCard from '@/components/charts/ComposedChartCard'
 import AlertList from '@/components/dashboard/AlertList'
 import { formatBRL, formatNumber } from '@/lib/utils/formatters'
+import { WALK_CONTABIL_MOCK } from '@/lib/mock/empresas-mock/walk-contabil'
 
-// --- Mock Data ---
-
-const MESES = ['Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez','Jan','Fev','Mar']
-
-const cumpridasPendentes12m = MESES.map((mes, i) => ({
-  dia: mes,
-  cumpridas: [28, 30, 32, 29, 31, 33, 30, 34, 32, 35, 33, 30][i],
-  pendentes: [4, 3, 2, 5, 3, 2, 4, 1, 3, 2, 3, 5][i],
-}))
-
-const empresas = [
-  { nome: 'Walk Holding',   cndFederal: 'green',  cndEstadual: 'green',  cndMunicipal: 'green',  fgts: 'green' },
-  { nome: 'Objetivo Seg.',  cndFederal: 'green',  cndEstadual: 'green',  cndMunicipal: 'yellow', fgts: 'green' },
-  { nome: 'Oficina Walk',   cndFederal: 'green',  cndEstadual: 'green',  cndMunicipal: 'green',  fgts: 'green' },
-  { nome: 'Digital LUX',    cndFederal: 'green',  cndEstadual: 'green',  cndMunicipal: 'green',  fgts: 'green' },
-  { nome: 'InibDor SP',     cndFederal: 'green',  cndEstadual: 'yellow', cndMunicipal: 'green',  fgts: 'green' },
-  { nome: 'InibDor RJ',     cndFederal: 'red',    cndEstadual: 'green',  cndMunicipal: 'green',  fgts: 'green' },
-  { nome: 'Walk Imoveis',   cndFederal: 'green',  cndEstadual: 'green',  cndMunicipal: 'green',  fgts: 'green' },
-  { nome: 'Walk Contabil',  cndFederal: 'green',  cndEstadual: 'green',  cndMunicipal: 'green',  fgts: 'green' },
-]
-
-const obrigacoesRows = [
-  { obrigacao: 'DCTF Mensal', empresa: 'Walk Holding', deadline: '15/03/2026', status: 'Vencido', responsavel: 'Maria S.' },
-  { obrigacao: 'EFD-Contribuicoes', empresa: 'InibDor RJ', deadline: '20/03/2026', status: 'Pendente', responsavel: 'Carlos R.' },
-  { obrigacao: 'GFIP/SEFIP', empresa: 'Objetivo Seg.', deadline: '07/04/2026', status: 'Em andamento', responsavel: 'Ana L.' },
-  { obrigacao: 'ECD', empresa: 'Digital LUX', deadline: '31/05/2026', status: 'Pendente', responsavel: 'Pedro M.' },
-  { obrigacao: 'DIRF', empresa: 'Oficina Walk', deadline: '28/02/2026', status: 'Vencido', responsavel: 'Maria S.' },
-]
-
-const alertasFiscais = [
-  { id: '1', severity: 'critical' as const, title: 'CND Federal InibDor RJ irregular - regularizar PGFN', empresa: 'InibDor RJ' },
-  { id: '2', severity: 'critical' as const, title: 'DCTF Walk Holding vencida em 15/03', empresa: 'Walk Holding' },
-  { id: '3', severity: 'warning' as const, title: 'CND Municipal Objetivo com pendencia - verificar ISS', empresa: 'Objetivo Seg.' },
-  { id: '4', severity: 'warning' as const, title: 'CND Estadual InibDor SP proxima do vencimento', empresa: 'InibDor SP' },
-  { id: '5', severity: 'info' as const, title: 'EFD-Contribuicoes InibDor RJ vence em 20/03', empresa: 'InibDor RJ' },
-  { id: '6', severity: 'info' as const, title: 'Novo prazo ECD prorrogado para 30/06', empresa: 'Todas' },
-]
+const { kpis, cumpridasPendentes12m, empresas, obrigacoesRows, alertasFiscais } = WALK_CONTABIL_MOCK
 
 const STATUS_COLORS: Record<string, string> = {
   'Vencido': 'bg-red-400/10 text-red-400 border-red-400/20',
@@ -77,17 +42,17 @@ export default function WalkContabilPage() {
     <div className="space-y-6">
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <KPICard title="Empresas Atendidas" value="8" icon={<Building2 size={16} />} delay={0} />
+        <KPICard title="Empresas Atendidas" value={String(kpis.empresasAtendidas)} icon={<Building2 size={16} />} delay={0} />
         <KPICard
-          title="Obrigacoes Pendentes"
-          value="5"
-          subtitle="Proxima vence em 1 dia"
+          title="Obrigações Pendentes"
+          value={String(kpis.obrigacoesPendentes)}
+          subtitle="Próxima vence em 1 dia"
           icon={<FileWarning size={16} />}
           delay={1}
         />
-        <KPICard title="Guias Emitidas" value="234" change={5.2} icon={<FileText size={16} />} delay={2} />
-        <KPICard title="Folhas Processadas" value="8" subtitle="Todas empresas" icon={<Users size={16} />} delay={3} />
-        <KPICard title="Receita" value={formatBRL(42000)} change={3.8} icon={<DollarSign size={16} />} delay={4} />
+        <KPICard title="Guias Emitidas" value={String(kpis.guiasEmitidas)} change={5.2} icon={<FileText size={16} />} delay={2} />
+        <KPICard title="Folhas Processadas" value={String(kpis.folhasProcessadas)} subtitle="Todas empresas" icon={<Users size={16} />} delay={3} />
+        <KPICard title="Receita" value={formatBRL(kpis.receita)} change={3.8} icon={<DollarSign size={16} />} delay={4} />
       </div>
 
       {/* Certidoes Grid */}

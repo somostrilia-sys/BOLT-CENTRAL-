@@ -2,68 +2,13 @@
 
 import { Cpu, Package, Wrench, Activity, Bell, Wifi, DollarSign } from 'lucide-react'
 import KPICard from '@/components/dashboard/KPICard'
-import BarChartCard from '@/components/charts/BarChartCard'
 import PieChartCard from '@/components/charts/PieChartCard'
 import AreaChartCard from '@/components/charts/AreaChartCard'
 import ComposedChartCard from '@/components/charts/ComposedChartCard'
 import { formatBRL, formatNumber } from '@/lib/utils/formatters'
+import { TRACKIT_MOCK } from '@/lib/mock/empresas-mock/trackit'
 
-/* ── Mock: Receita por Cliente ── */
-const receitaClientes = [
-  { cliente: 'Transportes ABC', plano: 'Enterprise', dispositivos: 820, receita: 73800 },
-  { cliente: 'Log\u00edstica Norte', plano: 'Business', dispositivos: 540, receita: 43200 },
-  { cliente: 'Frota Express', plano: 'Business', dispositivos: 380, receita: 30400 },
-  { cliente: 'Agro Tracking', plano: 'Starter', dispositivos: 290, receita: 20300 },
-  { cliente: 'Minas Cargas', plano: 'Enterprise', dispositivos: 650, receita: 58500 },
-]
-
-/* ── Mock: Instalados vs Estoque 12m ── */
-const instaladosEstoque12m = [
-  { dia: 'Abr', instalados: 150, estoque: 400 },
-  { dia: 'Mai', instalados: 165, estoque: 380 },
-  { dia: 'Jun', instalados: 142, estoque: 360 },
-  { dia: 'Jul', instalados: 178, estoque: 330 },
-  { dia: 'Ago', instalados: 190, estoque: 310 },
-  { dia: 'Set', instalados: 160, estoque: 350 },
-  { dia: 'Out', instalados: 175, estoque: 340 },
-  { dia: 'Nov', instalados: 185, estoque: 320 },
-  { dia: 'Dez', instalados: 195, estoque: 300 },
-  { dia: 'Jan', instalados: 170, estoque: 360 },
-  { dia: 'Fev', instalados: 180, estoque: 350 },
-  { dia: 'Mar', instalados: 187, estoque: 340 },
-]
-
-/* ── Mock: Alertas Tipo (pie) ── */
-const alertasTipo = [
-  { name: 'Roubo', value: 30, color: '#ef4444' },
-  { name: 'Cerca', value: 25, color: '#f59e0b' },
-  { name: 'Velocidade', value: 20, color: '#6366f1' },
-  { name: 'Desconex\u00e3o', value: 15, color: '#8b5cf6' },
-  { name: 'Outros', value: 10, color: '#a1a1aa' },
-]
-
-/* ── Mock: Receita SaaS 12m (area) ── */
-const receitaSaas12m = [
-  { mes: 'Abr', valor: 245000 },
-  { mes: 'Mai', valor: 252000 },
-  { mes: 'Jun', valor: 260000 },
-  { mes: 'Jul', valor: 268000 },
-  { mes: 'Ago', valor: 275000 },
-  { mes: 'Set', valor: 282000 },
-  { mes: 'Out', valor: 290000 },
-  { mes: 'Nov', valor: 298000 },
-  { mes: 'Dez', valor: 305000 },
-  { mes: 'Jan', valor: 310000 },
-  { mes: 'Fev', valor: 315000 },
-  { mes: 'Mar', valor: 320000 },
-]
-
-/* ── Mock: Pedidos China (importa\u00e7\u00e3o) ── */
-const pedidosChina = [
-  { data: '15/01/2026', quantidade: 2000, custoUnit: 42, custoTotal: 84000, precoVenda: 89, margem: 52.8 },
-  { data: '28/02/2026', quantidade: 1500, custoUnit: 40, custoTotal: 60000, precoVenda: 89, margem: 55.1 },
-  { data: '10/03/2026', quantidade: 3000, custoUnit: 38, custoTotal: 114000, precoVenda: 85, margem: 55.3 },
-]
+const { kpis, receitaClientes, instaladosEstoque12m, alertasTipo, receitaSaas12m, pedidosChina } = TRACKIT_MOCK
 
 export default function TrackItPage() {
   return (
@@ -76,13 +21,13 @@ export default function TrackItPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-        <KPICard title="Rastreadores Ativos" value={formatNumber(4200)} change={2.8} icon={<Cpu size={16} />} delay={0} />
-        <KPICard title="Estoque" value={formatNumber(340)} icon={<Package size={16} />} delay={1} />
-        <KPICard title="Instalados M\u00eas" value="187" change={3.9} icon={<Wrench size={16} />} delay={2} />
-        <KPICard title="Uptime" value="99,2%" progress={99} progressColor="#10b981" icon={<Activity size={16} />} delay={3} />
-        <KPICard title="Alertas Disparados" value={formatNumber(456)} change={-8.2} icon={<Bell size={16} />} delay={4} />
-        <KPICard title="Chips M2M Ativos" value={formatNumber(3890)} icon={<Wifi size={16} />} delay={5} />
-        <KPICard title="Receita SaaS" value={formatBRL(320000)} change={4.5} icon={<DollarSign size={16} />} delay={6} />
+        <KPICard title="Rastreadores Ativos" value={formatNumber(kpis.rastreadores)} change={2.8} icon={<Cpu size={16} />} delay={0} />
+        <KPICard title="Estoque" value={formatNumber(kpis.estoque)} icon={<Package size={16} />} delay={1} />
+        <KPICard title="Instalados Mês" value={String(kpis.instaladosMes)} change={3.9} icon={<Wrench size={16} />} delay={2} />
+        <KPICard title="Uptime" value={`${kpis.uptime.toFixed(1).replace('.', ',')}%`} progress={Math.round(kpis.uptime)} progressColor="#10b981" icon={<Activity size={16} />} delay={3} />
+        <KPICard title="Alertas Disparados" value={formatNumber(kpis.alertasDisparados)} change={-8.2} icon={<Bell size={16} />} delay={4} />
+        <KPICard title="Chips M2M Ativos" value={formatNumber(kpis.chipsM2M)} icon={<Wifi size={16} />} delay={5} />
+        <KPICard title="Receita SaaS" value={formatBRL(kpis.receitaSaaS)} change={4.5} icon={<DollarSign size={16} />} delay={6} />
       </div>
 
       {/* Receita por Cliente */}

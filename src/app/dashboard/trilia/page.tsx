@@ -5,66 +5,9 @@ import KPICard from '@/components/dashboard/KPICard'
 import BarChartCard from '@/components/charts/BarChartCard'
 import AreaChartCard from '@/components/charts/AreaChartCard'
 import { formatBRL, formatNumber } from '@/lib/utils/formatters'
+import { TRILIA_MOCK } from '@/lib/mock/empresas-mock/trilia'
 
-/* ── Mock: Funil SDR \u2192 Closer \u2192 Fechamento ── */
-const funilVendas = [
-  { name: 'Leads', value: 340, color: '#6366f1' },
-  { name: 'SDR Qualificado', value: 180, color: '#818cf8' },
-  { name: 'Calls Agendadas', value: 89, color: '#a78bfa' },
-  { name: 'Calls Realizadas', value: 72, color: '#c4b5fd' },
-  { name: 'Propostas', value: 35, color: '#ddd6fe' },
-  { name: 'Contratos Fechados', value: 18, color: '#10b981' },
-]
-
-/* ── Mock: Receita Recorrente vs Pontual 12m (stacked area) ── */
-const receita12m = [
-  { mes: 'Abr', recorrente: 110000, pontual: 60000 },
-  { mes: 'Mai', recorrente: 115000, pontual: 55000 },
-  { mes: 'Jun', recorrente: 120000, pontual: 65000 },
-  { mes: 'Jul', recorrente: 118000, pontual: 58000 },
-  { mes: 'Ago', recorrente: 125000, pontual: 62000 },
-  { mes: 'Set', recorrente: 128000, pontual: 70000 },
-  { mes: 'Out', recorrente: 130000, pontual: 68000 },
-  { mes: 'Nov', recorrente: 132000, pontual: 72000 },
-  { mes: 'Dez', recorrente: 135000, pontual: 75000 },
-  { mes: 'Jan', recorrente: 133000, pontual: 70000 },
-  { mes: 'Fev', recorrente: 136000, pontual: 73000 },
-  { mes: 'Mar', recorrente: 136500, pontual: 73500 },
-]
-
-/* ── Mock: NPS 12m ── */
-const nps12m = [
-  { mes: 'Abr', valor: 8.5 },
-  { mes: 'Mai', valor: 8.7 },
-  { mes: 'Jun', valor: 8.9 },
-  { mes: 'Jul', valor: 8.8 },
-  { mes: 'Ago', valor: 9.0 },
-  { mes: 'Set', valor: 8.9 },
-  { mes: 'Out', valor: 9.0 },
-  { mes: 'Nov', valor: 9.1 },
-  { mes: 'Dez', valor: 9.0 },
-  { mes: 'Jan', valor: 9.1 },
-  { mes: 'Fev', valor: 9.0 },
-  { mes: 'Mar', valor: 9.1 },
-]
-
-/* ── Mock: Pipeline Eventos ── */
-const pipelineEventos = [
-  { evento: 'Confer\u00eancia Tech SP', data: '15/04/2026', local: 'S\u00e3o Paulo', status: 'Confirmado', receita: 45000 },
-  { evento: 'Workshop Log\u00edstica', data: '22/04/2026', local: 'Curitiba', status: 'Em negocia\u00e7\u00e3o', receita: 28000 },
-  { evento: 'Feira Agro 2026', data: '10/05/2026', local: 'Goi\u00e2nia', status: 'Proposta enviada', receita: 62000 },
-  { evento: 'Summit Seguros', data: '28/05/2026', local: 'Rio de Janeiro', status: 'Confirmado', receita: 38000 },
-  { evento: 'Hackathon IoT', data: '15/06/2026', local: 'Belo Horizonte', status: 'Lead', receita: 15000 },
-]
-
-/* ── Mock: Conte\u00fados por Cliente ── */
-const conteudosCliente = [
-  { cliente: 'Trilho Solu\u00e7\u00f5es', posts: 24, videos: 8, emails: 12, engajamento: '4.2%' },
-  { cliente: 'TrackIt', posts: 18, videos: 6, emails: 10, engajamento: '3.8%' },
-  { cliente: 'Objetivo Seguros', posts: 20, videos: 4, emails: 15, engajamento: '5.1%' },
-  { cliente: 'InibDor', posts: 30, videos: 12, emails: 20, engajamento: '6.3%' },
-  { cliente: 'Walk Holding', posts: 12, videos: 3, emails: 8, engajamento: '3.5%' },
-]
+const { kpis, funilVendas, receita12m, nps12m, pipelineEventos, conteudosCliente } = TRILIA_MOCK
 
 const statusColor: Record<string, string> = {
   'Confirmado': 'bg-emerald-500/20 text-emerald-400',
@@ -84,14 +27,14 @@ export default function TriliaPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
-        <KPICard title="Leads Funil" value="340" change={15.2} icon={<Users size={16} />} delay={0} />
-        <KPICard title="Calls Agendadas" value="89" icon={<Phone size={16} />} delay={1} />
-        <KPICard title="Calls Realizadas" value="72" subtitle="No-show 19%" icon={<PhoneOff size={16} />} delay={2} />
-        <KPICard title="Contratos Fechados" value="18" change={20.0} icon={<FileText size={16} />} delay={3} />
-        <KPICard title="Ticket M\u00e9dio" value={formatBRL(4500)} icon={<DollarSign size={16} />} delay={4} />
-        <KPICard title="Receita" value={formatBRL(210000)} subtitle="Recorrente 65% | Pontual 35%" change={6.8} icon={<TrendingUp size={16} />} delay={5} />
-        <KPICard title="Clientes Ativos" value="45" change={4.7} icon={<UserCheck size={16} />} delay={6} />
-        <KPICard title="NPS" value="9.1" progress={91} progressColor="#10b981" icon={<Star size={16} />} delay={7} />
+        <KPICard title="Leads Funil" value={String(kpis.leadsFunil)} change={15.2} icon={<Users size={16} />} delay={0} />
+        <KPICard title="Calls Agendadas" value={String(kpis.callsAgendadas)} icon={<Phone size={16} />} delay={1} />
+        <KPICard title="Calls Realizadas" value={String(kpis.callsRealizadas)} subtitle="No-show 19%" icon={<PhoneOff size={16} />} delay={2} />
+        <KPICard title="Contratos Fechados" value={String(kpis.contratosFechados)} change={20.0} icon={<FileText size={16} />} delay={3} />
+        <KPICard title="Ticket Médio" value={formatBRL(kpis.ticketMedio)} icon={<DollarSign size={16} />} delay={4} />
+        <KPICard title="Receita" value={formatBRL(kpis.receita)} subtitle="Recorrente 65% | Pontual 35%" change={6.8} icon={<TrendingUp size={16} />} delay={5} />
+        <KPICard title="Clientes Ativos" value={String(kpis.clientesAtivos)} change={4.7} icon={<UserCheck size={16} />} delay={6} />
+        <KPICard title="NPS" value={String(kpis.nps)} progress={Math.round(kpis.nps * 10)} progressColor="#10b981" icon={<Star size={16} />} delay={7} />
       </div>
 
       {/* Charts */}
