@@ -200,6 +200,34 @@ export default function BoltPage() {
         </div>
       </div>
 
+      {/* KPI Strip */}
+      <div className="relative z-10 flex justify-center px-4 pb-5">
+        <div className="flex flex-wrap justify-center gap-2">
+          {[
+            { icon: '🏢', label: 'Empresas', value: '8', sub: 'Walk Group' },
+            { icon: '👥', label: 'Colaboradores', value: '+200', sub: 'ativos' },
+            { icon: '💰', label: 'Receita / mês', value: 'R$ 2,5M', sub: 'consolidado' },
+            { icon: '🚗', label: 'Veículos', value: '26k', sub: 'geridos' },
+            { icon: '🤖', label: 'Bots WhatsApp', value: '14/16', sub: 'online' },
+            { icon: '📞', label: 'VoIP', value: 'Online', sub: 'PC Gamer VPS' },
+          ].map((kpi) => (
+            <div
+              key={kpi.label}
+              className="flex items-center gap-2.5 bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 rounded-xl px-3.5 py-2 backdrop-blur-sm"
+            >
+              <span className="text-base leading-none">{kpi.icon}</span>
+              <div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-white font-bold text-sm leading-none">{kpi.value}</span>
+                  <span className="text-white/30 text-[10px] leading-none">{kpi.sub}</span>
+                </div>
+                <div className="text-white/40 text-[10px] mt-0.5 leading-none">{kpi.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-cyan-500/[0.06] blur-[120px] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-amber-500/[0.04] blur-[80px] pointer-events-none" />
     </div>
